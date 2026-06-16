@@ -245,6 +245,16 @@ Here’s the completed `pom.xml` file:
 </project>
 ```
 
+### Continuous Testing
+---
+The project is configured with JUnit 4 for automated testing.
+
+**Run Tests:**
+```bash
+mvn test
+```
++ This will run all unit tests in the `src/test/java` directory.
+
 ### Run project
 ---
 + To run this project run the following command.
