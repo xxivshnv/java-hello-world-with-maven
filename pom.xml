@@ -62,4 +62,5 @@
           <url>https://maven.pkg.github.com/xxivshnv/java-hello-world-with-maven</url>
         </repository>
     </distributionManagement>
+    
 </project>
