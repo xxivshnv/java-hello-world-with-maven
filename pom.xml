@@ -28,9 +28,10 @@
            </dependency>
        </dependencies>
        <!-- end::joda[] -->
-       
+
     <build>
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -52,6 +53,21 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Tambahan Plugin Checkstyle -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.6.0</version>
+
+                <configuration>
+                    <configLocation>google_checks.xml</configLocation>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>false</failsOnError>
+                </configuration>
+
+            </plugin>
+
         </plugins>
     </build>
 
@@ -62,5 +78,5 @@
           <url>https://maven.pkg.github.com/xxivshnv/java-hello-world-with-maven</url>
         </repository>
     </distributionManagement>
-    
+
 </project>
