@@ -1,6 +1,6 @@
 #!/bin/bash
 # scripts/auto-release.sh
-# Automatic version bumping dan tag creation
+# Automatic version bumping, tag creation, and GitHub release publishing
 
 set -e
 
@@ -45,4 +45,22 @@ git tag -a "v$NEW_VERSION" -m "Release version $NEW_VERSION"
 git push origin "v$NEW_VERSION"
 echo -e "${GREEN}✓ Release tag v$NEW_VERSION created and pushed${NC}"
 
+# 7. Create GitHub Release via API
+echo -e "${YELLOW}Creating GitHub Release...${NC}"
+
+RELEASE_RESPONSE=$(curl -s -X POST \
+  -H "Authorization: token $GITHUB_TOKEN" \
+  -H "Accept: application/vnd.github+json" \
+  "https://api.github.com/repos/$GITHUB_REPOSITORY/releases" \
+  -d "{\"tag_name\":\"v$NEW_VERSION\",\"name\":\"Release v$NEW_VERSION\",\"body\":\"Automatic release version $NEW_VERSION\",\"draft\":false,\"prerelease\":false}")
+
+if echo "$RELEASE_RESPONSE" | grep -q "\"id\""; then
+  echo -e "${GREEN}✓ Release v$NEW_VERSION published to GitHub${NC}"
+else
+  echo -e "${RED}✗ Failed to create release${NC}"
+  echo "$RELEASE_RESPONSE"
+  exit 1
+fi
+
 echo -e "${GREEN}=== Automatic Release Completed ===${NC}"
+echo -e "${GREEN}Release: https://github.com/$GITHUB_REPOSITORY/releases/tag/v$NEW_VERSION${NC}"
